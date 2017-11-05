@@ -121,11 +121,16 @@ class LearningAgent(Agent):
         :param state: State of the agent
         :return: action
         """
-        best_action, max_Q = None, -np.inf
+        max_Q = -np.inf
+        best_actions = []
         for action in self.valid_actions:
             if max_Q < self.Q[state][action]:
-                max_Q, best_action = self.Q[state][action], action
-        return best_action
+                max_Q = self.Q[state][action]
+                best_actions = [action]
+            elif max_Q == self.Q[state][action]:
+                best_actions.append(action)
+
+        return random.choice(best_actions)
 
 
     def choose_action(self, state):
